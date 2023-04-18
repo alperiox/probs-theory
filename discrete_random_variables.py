@@ -55,12 +55,13 @@ class Geometric(DiscreteRD):
 
 
 class Pascal(DiscreteRD):
-    def __init__(self, p, n):
-        self.n = n
+    def __init__(self, k, p):
+        self.k = k  # k-th success
         self.p = p
 
-    def pmf(self, k):
-        return comb(self.n - 1, k - 1) * (self.p**k) * ((1 - self.p) ** (self.n - k))
+    def pmf(self, n):
+        # K-th success at the n-th trial
+        return comb(n - 1, self.k - 1) * (self.p**self.k) * ((1 - self.p) ** (n - self.k))
 
 
 class LambdaPoisson(DiscreteRD):
