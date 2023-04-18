@@ -3,7 +3,12 @@ import math
 from utils import comb, factorial
 
 
-class HyperGeometric:
+class DiscreteRD(object):
+    def pdf(self, k):
+        return sum(self.pmf(r) for r in range(k + 1))
+
+
+class HyperGeometric(DiscreteRD):
     def __init__(self, N, a, k):
         self.N = N
         self.a = a
@@ -16,15 +21,15 @@ class HyperGeometric:
             return comb(self.a, r) * comb(self.N - self.a, self.k - r) / comb(self.N, self.k)
 
 
-class Bernoulli:
+class Bernoulli(DiscreteRD):
     def __init__(self, p):
         self.p = p
 
-    def pmf(self):
+    def pmf(self, r):
         return self.p
 
 
-class Binomial:
+class Binomial(DiscreteRD):
     def __init__(self, n, p):
         self.n = n
         self.p = p
@@ -33,15 +38,15 @@ class Binomial:
         return comb(self.n, k) * (self.p**k) * ((1 - self.p) ** (self.n - k))
 
 
-class Uniform:
+class Uniform(DiscreteRD):
     def __init__(self, n):
         self.n = n
 
-    def pmf(self):
+    def pmf(self, r):
         return 1 / self.n
 
 
-class Geometric:
+class Geometric(DiscreteRD):
     def __init__(self, p):
         self.p = p
 
@@ -49,7 +54,7 @@ class Geometric:
         return self.p * ((1 - self.p) ** (k - 1))
 
 
-class Pascal:
+class Pascal(DiscreteRD):
     def __init__(self, p, n):
         self.n = n
         self.p = p
@@ -58,7 +63,7 @@ class Pascal:
         return comb(self.n - 1, k - 1) * (self.p**k) * ((1 - self.p) ** (self.n - k))
 
 
-class LambdaPoisson:
+class LambdaPoisson(DiscreteRD):
     def __init__(self, lambd, k):
         self.lambd = lambd
         self.k = k
